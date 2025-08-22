@@ -1,0 +1,28 @@
+name: Hello world workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2 # after the "@" specify the version, e.g., v2, v3, etc. We can specify the tag or github commit number or branch.
+
+      - name: Print Hello World 
+        run: echo "Hello, World!" # this command will print "Hello, World!" to the console
+        shell: bash # specify the shell to use, e.g., bash, sh, etc.
+  goodbye_world_job:
+    runs-on: ubuntu-latest
+    needs: hello_world_job # this job will run after the hello_world_job is completed
+    steps:
+      - name: Print Goodbye World
+        run: echo "Goodbye, World!" # this command will print "Goodbye, World!" to the console
+        shell: bash # specify the shell to use, e.g., bash, sh, etc.

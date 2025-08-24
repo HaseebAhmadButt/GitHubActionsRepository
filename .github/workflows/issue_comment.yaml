@@ -1,14 +1,42 @@
+# A unique and descriptive name for your workflow.
 name: Create a comment on new issues
 
-on: 
+# Defines the events that trigger the workflow.
+# In this case, it triggers whenever an 'issue' event occurs.
+on:
   issues:
+    # Specifies the type of issue event.
+    # The workflow will only run when an issue is 'opened'.
     types: [opened]
 
+# A map of all the jobs that compose this workflow.
 jobs:
+  # The unique identifier for this job.
   comment-with-action:
+    # Specifies the type of virtual machine the job will run on.
+    # 'ubuntu-latest' is a GitHub-hosted runner.
     runs-on: ubuntu-latest
-    steps:
-      - name: "dump github context"
-        run: echo '${{ toJSON(github.event) }}' | jq
-        shell: bash
     
+    # A sequence of steps that will be executed as part of this job.
+    steps:
+      # A unique name for this step, making the workflow run logs easier to read.
+      #- name: "dump github context"
+        
+        # The command to execute on the runner.
+        # This command outputs the JSON payload of the event.
+        # The 'jq' command is used to format the JSON for better readability.
+        # run: echo '${{ toJSON(github.event.issue.number) }}' | jq
+        
+        # Specifies the shell to be used to run the command.
+        #shell: bash
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{  github.event.issue.number  }}
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown** :sparkles:
+            - Created by [create-or-update-comment][1]
+
+            [1]: https://github.com/peter-evans/create-or-update-comment
+          reactions: '+1'

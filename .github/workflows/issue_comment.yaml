@@ -29,6 +29,7 @@ jobs:
         
         # Specifies the shell to be used to run the command.
         #shell: bash
+        # This worked fine just need to update the user permissions to also write not only read
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v4
         with:
